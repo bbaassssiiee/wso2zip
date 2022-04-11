@@ -1,0 +1,12 @@
+---
+file:
+  {{ product_dir }}:
+    exists: true
+    filetype: directory
+  {{ product_dir }}/{{ product_name }}-{{ product_version }}/LICENSE.txt:
+    exists: true
+    filetype: file
+    contains: []
+package:
+  unzip:
+    installed: true

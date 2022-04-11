@@ -1,0 +1,37 @@
+---
+
+- name: Ensure unzip is installed
+  package:
+    name: unzip
+    state: present
+    update_cache: true
+
+# WSO2 Distribution
+- name: Ensure product directory is present
+  file:
+    path: "{{ product_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Unzip WSO2 API Manager Package
+  unarchive:
+    src: "{{ product_package_location }}/packs/{{ product_name }}-{{ product_version }}.zip"
+    dest: "{{ product_dir }}"
+    creates: "{{ product_dir }}/{{ product_name }}-{{ product_version }}/LICENSE.txt"
+    mode: u=rw,g=r,o=r
+    remote_src: false
+  no_log: false
+
+- name: Ensure goss directory exists
+  file:
+    path: /etc/goss.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy test_wso2_apim_zip.yml to goss directory
+  template:
+    src: test_wso2_apim_zip.yml.j2
+    dest: /etc/goss.d/test_wso2_apim_zip.yml
+    mode: 0644
