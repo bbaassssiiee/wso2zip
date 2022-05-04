@@ -1,6 +1,11 @@
 ---
+- name: Check if unzip is installed
+  stat:
+    path: /usr/bin/unzip
+  register: unzip
 
 - name: Ensure unzip is installed
+  when: not unzip.stat.exists
   become: true
   package:
     name: unzip
