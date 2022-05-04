@@ -1,6 +1,7 @@
 ---
 
 - name: Ensure unzip is installed
+  become: true
   package:
     name: unzip
     state: present
@@ -22,16 +23,3 @@
     remote_src: false
   no_log: false
 
-- name: Ensure goss directory exists
-  file:
-    path: /etc/goss.d
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-
-- name: Copy test_wso2_apim_zip.yml to goss directory
-  template:
-    src: test_wso2_apim_zip.yml.j2
-    dest: /etc/goss.d/test_wso2_apim_zip.yml
-    mode: 0644
